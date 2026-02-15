@@ -33,7 +33,7 @@ class FilterIconWithBadge extends StatelessWidget {
       child: IconButton(
         icon: const Icon(Icons.filter_alt),
         onPressed: ontap,
-        color: CustomColors.mint,
+        color: CustomColors.gay_pink,
       ),
     );
   }

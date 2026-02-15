@@ -133,7 +133,7 @@ class _CreateIngredientScreenState extends State<CreateIngredientScreen> {
                                     ),
                                     const SizedBox(width: 10),
                                     ToggleButtons(
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(12),
                                       isSelected: [
                                         createIngredientStore.is_ml == true,
                                         createIngredientStore.is_ml == false

@@ -21,6 +21,8 @@ class RecipeCategory {
     return parseObject;
   }
 
+
+
   factory RecipeCategory.fromParse(ParseObject parseObject) {
     return RecipeCategory(
       id: parseObject.objectId,

@@ -137,29 +137,37 @@ class _CreateRecipeScreenState extends State<CreateRecipeScreen> {
                               ),
                               const SizedBox(height: 12),
 
-                              FutureBuilder<List<IngredientUsed>>(
-                                future: createRecipeStore.ingredientsFuture,
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                              Observer(
+                                builder: (_) {
+                                  final future = createRecipeStore.ingredientsFuture;
+
+                                  // Enquanto ainda não existe future (primeiro build)
+                                  if (future == null) {
                                     return const Center(
-                                      child: CircularProgressIndicator(
-                                        color: CustomColors.mint,
-                                      ),
+                                      child: CircularProgressIndicator(color: CustomColors.mint),
                                     );
                                   }
 
-                                  // Garante que ingredientes são carregados ou inicializa com lista vazia.
-                                  final ingredients = snapshot.data ?? [];
+                                  return FutureBuilder<List<IngredientUsed>>(
+                                    future: future,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState == ConnectionState.waiting) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(color: CustomColors.mint),
+                                        );
+                                      }
 
-                                  return IngredientUsedContainer(
-                                    initialIngredients: ingredients,
-                                    onIngredientsChanged: (newIngredients) {
-                                      // Atualiza a lista local e no banco, sem sobrescrever com o FutureBuilder.
-                                      createRecipeStore.updateIngredients(newIngredients);
+                                      final ingredients = snapshot.data ?? const <IngredientUsed>[];
+
+                                      return IngredientUsedContainer(
+                                        initialIngredients: ingredients,
+                                        onIngredientsChanged: createRecipeStore.updateIngredients,
+                                      );
                                     },
                                   );
                                 },
                               ),
+
                             ],
                           ),
                         ),
